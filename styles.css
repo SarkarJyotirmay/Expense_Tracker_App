@@ -1,0 +1,47 @@
+*{
+    scroll-behavior: smooth !important;
+}
+button{
+    cursor: pointer;
+}
+
+/*  */
+#expense-form ::placeholder{
+    color: rgba(83, 83, 83, 0.304);
+}
+#expense-form{
+    box-shadow: 0px 5px 14px 0px #ffffffb8;
+}
+#expense-board{
+    background-color: rgba(0, 0, 0, 0.493);
+}
+#summary{
+  box-shadow:  0px 5px 14px 0px #000;
+}
+#my-chart{
+     /* width: 570px !important; 
+    height: 380px !important;  */
+    background-color: #ffffff98;
+}
+
+
+/* Expense Div created from JS */
+.expense-div{
+    padding: 0.2rem 5px;
+    display: flex;
+    padding-inline: calc(var(--spacing) * 2);
+}
+.expense-div > p{
+    width: 25%;
+}
+.delete-btn{
+    background-color: rgb(255, 41, 41);
+    color: white;
+    width: 50px !important;
+    padding: 0.2rem 0;
+    border-radius: 0.5rem;
+    margin: auto;
+    cursor: pointer;
+}
+
+/* Tour guide */

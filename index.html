@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>expense tracker</title>
+    <!-- font awsome cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- tailwind css -->
+    <link rel="stylesheet" href="output.css" />
+    <!-- apni css -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!--! header -->
+    <div class="p-4 flex justify-between items-center bg-sky-800">
+      <i class="fa-solid fa-money-bill-transfer text-3xl text-red-500"></i>
+
+      <div class="links text-white font-semibold flex gap-4">
+        <a href="#expense-board">Data Visualization</a>
+        <a href="#tax-calculator">Tax Calculator</a>
+        <a href="">AI Advisor</a>
+        <a href="">Expense Tracker</a>
+      </div>
+    </div>
+
+    <div id="wrapper" class="min-h-full pb-12 px-6 bg-sky-900">
+      <!--! heading -->
+      <h1 class="text-4xl font-bold text-center text-amber-400">
+        Track Your Every Expense...
+      </h1>
+
+      <!--! Income ke liye DIV > form + budget div -->
+      <div
+        class="py-6 flex flex-col justify-center items-center gap-4 text-white"
+      >
+        <h1 class="text-xl">Enter Your Income To Set Budget...</h1>
+
+        <form
+          action=""
+          id="income-form"
+          class="flex justify-evenly gap-4 w-1/2"
+        >
+          <input
+            type="text"
+            required
+            class="px-4 rounded-lg bg-amber-100 text-black"
+            placeholder="Enter amount  ₹"
+          />
+          <button
+            type="submit"
+            class="p-2 bg-green-500 font-semibold rounded-xl hover:bg-green-700 hover:text-white"
+          >
+            Set Budget
+          </button>
+        </form>
+        <!--* Income/Budget DIV -->
+        <div
+          id="total-income-money"
+          class="w-[300px] h-[3rem] border-1 m-auto py-2.5 flex justify-center items-center bg-amber-200 font-semibold text-black rounded-md"
+        >
+          <!-- total income or budget comes here by JS -->
+          <p>Your Budget is : ₹ <span id="budget"></span></p>
+        </div>
+      </div>
+
+      <!--! Expense ke liye DIV >  form + summary div -->
+      <div class="my-4 flex flex-col justify-center items-center gap-4">
+        <h1 class="text-xl text-white">Fill Expense Details...</h1>
+
+        <div class="flex justify-evenly w-full">
+          <form
+            action=""
+            id="expense-form"
+            class="text-lg text-gray-300 flex flex-col gap-4 border-1 px-4 py-2 rounded-xl w-[300px] bg-sky-950"
+          >
+            <div>
+              <label for="date" class="block">Date : </label>
+              <input
+                type="date"
+                id="date"
+                class="block bg-gray-100 text-black p-2 rounded-lg w-full"
+              />
+            </div>
+
+            <div>
+              <label for="purpose" class="block">Purpose : </label>
+              <input
+                type="text"
+                id="purpose"
+                class="block bg-gray-100 text-black p-2 rounded-lg w-full"
+                placeholder="eg : Food"
+              />
+            </div>
+
+            <div>
+              <label for="amount" class="block">Amount : </label>
+              <input
+                type="text"
+                id="amount"
+                class="block bg-gray-100 text-black p-2 rounded-lg w-full"
+                placeholder="eg : 50000"
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="py-1 rounded-3xl font-bold bg-blue-400 text-cyan-900 hover:bg-blue-500 hover:text-white"
+            >
+              Spent
+            </button>
+          </form>
+
+          <div
+            id="summary"
+            class="w-[300px] h-[320px] rounded-xl bg-amber-200 text-xl font-semibold text-center flex flex-col justify-evenly border-1"
+          >
+            <h2>Your Expense Summary :)</h2>
+            <h2>Budget Remaining : <span id="remaining-budget"></span></h2>
+            <h2>Amount Spent : <span id="total-spent"></span></h2>
+          </div>
+        </div>
+      </div>
+
+      <!--! Expense leaderboard -->
+      <div
+        id="expense-board"
+        class="my-12 flex flex-col py-4 border-1 rounded-lg text-center text-sm sm:text-md text-white"
+      >
+        <!-- header -->
+        <div
+          id="expense-header"
+          class="px-2 py-1.5 flex justify-between items-center text-amber-700 font-semibold bg-blue-300"
+        >
+          <p class="w-1/4">Date</p>
+          <p class="w-1/4">Purpose</p>
+          <p class="w-1/4">Amount</p>
+          <p class="w-1/4">Actions</p>
+        </div>
+        <!-- data goes here -->
+        <div id="expense-container" class="felx flex-col"></div>
+      </div>
+
+      <!--! Charts goes here button div is inside -->
+      <div class="charts flex flex-col items-center gap-6 overflow-hidden">
+        <h1 class="text-xl text-white font-semibold">
+          Click to see category wise expenses ...
+        </h1>
+        <!-- button div -->
+        <div
+          id="chart-buttons"
+          class="flex justify-evenly flex-wrap text-lg font-semibold gap-4 p-2"
+        >
+          <button
+            value="bar"
+            class="px-4 py-2 border border-gray-400 rounded-lg bg-gray-300 hover:bg-gray-500 hover:text-white transition-all"
+          >
+            Bar
+          </button>
+
+          <button
+            value="pie"
+            class="px-4 py-2 border border-gray-400 rounded-lg bg-gray-300 hover:bg-gray-500 hover:text-white transition-all"
+          >
+            Pie
+          </button>
+
+          <button
+            value="doughnut"
+            class="px-4 py-2 border border-gray-400 rounded-lg bg-gray-300 hover:bg-gray-500 hover:text-white transition-all"
+          >
+            Doughnut
+          </button>
+
+          <button
+            value="radar"
+            class="px-4 py-2 border border-gray-400 rounded-lg bg-gray-300 hover:bg-gray-500 hover:text-white transition-all"
+          >
+            Radar
+          </button>
+        </div>
+        <!-- chart canvas -->
+        <canvas
+          id="my-chart"
+          class="overflow-hidden bg-amber-50 border-1"
+        ></canvas>
+      </div>
+      <!--! date wise trend chart  -->
+      <div
+        id="expense-trend"
+        class="my-12 m-auto flex flex-col items-center px-4"
+      >
+        <h2 class="text-white text-2xl font-semibold text-center mb-4">
+          Your Daily Expenditure Looks Like ....
+        </h2>
+        <canvas
+          id="trend-chart"
+          class="w-full max-w-3xl aspect-[16/9] sm:aspect-[4/3] max-h-[400px] sm:max-h-[300px] rounded-lg border border-gray-300 bg-amber-50 p-2"
+        ></canvas>
+      </div>
+
+      <!--! Tax Calculator and Tour guide  -->
+      <div
+        id="tax-calculator"
+        class="flex flex-col justify-center items-center gap-6 w-full md:w-1/2 border-1 m-auto px-6 py-8 text-white text-center"
+      >
+        <h2 class="bg-gray-700 w-full py-1.5 text-xl rounded-md">
+          Enter Amount and Calcualate Tax Instantly
+        </h2>
+
+        <form
+          id="tax-form"
+          action=""
+          class="w-full flex flex-col justify-center items-center gap-4"
+        >
+          <input
+            type="number"
+            id="tax-income-input"
+            placeholder="Enter Income to calculate tax"
+            class="bg-gray-400 w-full h-10 px-1.5 py-0.5 rounded-lg text-black font-semibold"
+          />
+          <button
+            type="submit"
+            class="bg-green-500 w-1/2 h-10 px-2.5 rounded-2xl hover:bg-green-800 font-semibold"
+          >
+            Calculate
+          </button>
+        </form>
+
+        <p>Total Income : ₹ <span id="pre-tax-income">0</span></p>
+
+        <p>Tax Rate : <span id="tax-rate">0%</span></p>
+
+        <div id="tax-guide" class="flex border-1 w-full">
+          <div class="flex flex-col h-[200px] w-[70%] border-r-1">
+            <h2
+              class="border-y-1 h-1/5 bg-green-600 text-lg font-semibold flex justify-center items-center"
+            >
+              Income
+            </h2>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">
+              Income above ₹1000000.00
+            </p>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">
+              Income above ₹700000.00
+            </p>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">
+              Income above ₹500000.00
+            </p>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">
+              Income above ₹300000.00
+            </p>
+          </div>
+
+          <div class="flex flex-col h-[200px] w-[30%]">
+            <h2
+              class="border-y-1 h-1/5 bg-green-600 text-lg font-semibold flex justify-center items-center"
+            >
+              Tax Rates
+            </h2>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">15%</p>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">12%</p>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">7%</p>
+            <p class="border-y-1 h-1/5 flex justify-center items-center">5%</p>
+          </div>
+        </div>
+
+        <p>Tax to Pay ₹ <span id="total-tax"></span></p>
+        <p>Income After Tax ₹ <span id="post-tax-income"></span></p>
+      </div>
+      <!-- tour guide -->
+      <div id="tour-guide"></div>
+
+      <!--! AI Chat Bot  -->
+      <div
+        id="ai-bot"
+        class="mt-12 m-auto p-6 border-1 border-white bg-blue-300 w-full lg:w-1/2 rounded-lg flex justify-center items-center"
+      >
+        <p id="response"></p>
+        <button
+          class="bg-blue-600 text-white font-semibold py-1.5 px-4 rounded-2xl"
+        >
+          Ask AI for Advise
+        </button>
+      </div>
+      <!--! Razor Pay Intrigation  -->
+      <div 
+      id="payment" class="mt-12 m-auto py-4 w-full md:w-1/2 flex flex-col justify-center items-center gap-6  border-1 border-white rounded-lg bg-green-300">
+        <h1 class="text-xl font-semibold">Pay ₹ 10000 and book your Tour Subscription Today</h1>
+        <button id="rzp-button1" class="btn btn-outline-dark btn-lg bg-blue-600 text-white w-[200px] px-4 py-2 rounded-xl">
+          <i class="fas fa-money-bill"></i>
+           Pay with Razor Pay
+        </button>
+      </div>
+
+    </div>
+
+    <!--! Scripts  -->
+    <!-- income form + expense form + expense board + charts  -->
+    <script src="script.js" type="module"></script>
+    <!-- tax calculator -->
+    <script src="calculator.js" type="module"></script>
+    <!-- ai bot -->
+    <script src="ai.js"></script>
+    <!-- payments -->
+    <script src="payment.js" type="module"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <!-- local storage -->
+    <script src="local.js" type="module"></script>
+    <!-- chart.JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="myChart.js" type="module"></script>
+  </body>
+</html>
+<!-- npx @tailwindcss/cli -i ./input.css -o ./output.css --watch -->
