@@ -1,4 +1,3 @@
-
 import { showExpenses } from "./script.js";
 
 // INCOME RELATED
@@ -9,19 +8,20 @@ const budgetSpan = document.getElementById("budget");
 const remainingBudgetSpan = document.getElementById("remaining-budget");
 const totalSpentSpan = document.getElementById("total-spent");
 
-
 //* Window load event
 window.addEventListener("load", (e) => {
-  budgetSpan.innerText = localStorage.getItem("totalBudget"); //budget
+  if (localStorage.getItem("totalBudget")) {
+    budgetSpan.innerText = localStorage.getItem("totalBudget"); //budget
+  }
 
-//   summary
-  remainingBudgetSpan.innerText = localStorage.getItem("remainingBudet");
+  //   summary
+  remainingBudgetSpan.innerText = localStorage.getItem("remainingBudget");
   totalSpentSpan.innerText = localStorage.getItem("totalSpent");
 
-//   leaderboard
-  if(localStorage.getItem("formData")){
+  //   leaderboard
+  if (localStorage.getItem("formData")) {
     showExpenses(JSON.parse(localStorage.getItem("formData")));
   }
 
-//   
+  //
 });

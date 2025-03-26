@@ -47,3 +47,13 @@ function getTrendChartData(arr){
 
 // retutns 
 // {date : amount, date : amount, date : amount}
+
+function totalSpentAmountFnc(arr) {
+  let res = 0;
+  res = arr.reduce((acc, curr) => {
+    return acc.amount + curr.amount;
+  });
+  return res;
+}
+// console.log(totalSpentAmountFnc(data));
+

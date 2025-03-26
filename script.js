@@ -28,18 +28,42 @@ let myTrendChartData;
 
 // storage
 let expensesArr = [];
+//! ++++++
+if (localStorage.getItem("formData")) {
+  expensesArr = JSON.parse(localStorage.getItem("formData"));
+}
 
 // Income form submit >  Set income
 incomeForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  if (Number(totalBudget) > 0) {
-    totalBudget = (Number(totalBudget) + Number(incomeInput.value)).toFixed(2);
+
+  if (Number(incomeInput.value) <= 0) {
+    alert("Please Enter amount greater than 0");
+    return;
+  }
+
+  if (localStorage.getItem("totalBudget")) {
+    console.log("Budget Hai!", localStorage.getItem("totalBudget"));
+    totalBudget =
+      Number(localStorage.getItem("totalBudget")) + Number(incomeInput.value);
   } else {
     totalBudget = Number(incomeInput.value);
   }
-
   budgetSpan.innerText = totalBudget;
   localStorage.setItem("totalBudget", totalBudget);
+
+  // remaining budget
+  if (localStorage.getItem("remainingBudget")) {
+    remainingBudget =
+      Number(localStorage.getItem("remainingBudget")) +
+      Number(incomeInput.value);
+    remainingBudgetSpan.innerText = remainingBudget;
+    localStorage.setItem("remainingBudget", remainingBudget);
+  } else {
+    remainingBudget = Number(incomeInput.value);
+    remainingBudgetSpan.innerText = remainingBudget;
+    localStorage.setItem("remainingBudget", remainingBudget);
+  }
 });
 
 // Expense form submit > detail added in Expense board
@@ -51,6 +75,7 @@ expenseForm.addEventListener("submit", (e) => {
     amount: expensInputs[2].value,
     id: Date.now(),
   };
+
   if (localStorage.getItem("formData")) {
     expensesArr = JSON.parse(localStorage.getItem("formData")); // getting data from local storage
   }
@@ -63,13 +88,41 @@ expenseForm.addEventListener("submit", (e) => {
   localStorage.setItem("formData", JSON.stringify(expensesArr));
   showExpenses(JSON.parse(localStorage.getItem("formData"))); // show data = leaderboard from local storage
 
-  totalSpent = Number(totalSpent) + Number(expenseObj.amount);
-  remainingBudget = Number(localStorage.getItem("totalBudget")) - totalSpent;
-  localStorage.setItem("totalSpent", totalSpent);
-  localStorage.setItem("remainingBudet", remainingBudget);
-  console.log(totalSpent, remainingBudget);
+  // spent amount
+  if (localStorage.getItem("formData")) {
+    totalSpent = Number(findTotalSpentAmount(expensesArr)); //! +++++
 
-  remainingBudgetSpan.innerText = localStorage.getItem("remainingBudet");
+    // if expense exceeds or near budget
+    if (totalSpent > totalBudget) {
+      alert("Oops, Budget is Over Add More!");
+      expensesArr = JSON.parse(localStorage.getItem("formData"));
+      expensesArr.splice((expensesArr.length - 1), 1);
+      showExpenses(expensesArr);
+      return; //! stops execution
+    } else if (totalSpent >= (totalBudget * 80) / 100) {
+      alert("You have Used More Than 80% of your budget!");
+    }
+  } else {
+    totalSpent = Number(expenseObj.amount);
+    if(totalSpent >= totalBudget){
+      alert("You have exhausted your Budget");
+      remainingBudget = 0;
+      localStorage.setItem("remainingBudget", remainingBudget);
+    }
+    else if (totalSpent >= (totalBudget * 80) / 100) {
+      alert("You have Used More Than 80% of your budget!");
+    }
+  }
+
+  // remaining budget
+  remainingBudget =
+    Number(localStorage.getItem("totalBudget")) - Number(totalSpent);
+
+  localStorage.setItem("totalSpent", totalSpent);
+  localStorage.setItem("remainingBudget", remainingBudget);
+  // console.log(totalSpent, remainingBudget);
+
+  remainingBudgetSpan.innerText = localStorage.getItem("remainingBudget");
   totalSpentSpan.innerText = localStorage.getItem("totalSpent");
 
   //   loads chart when anythins added
@@ -88,11 +141,11 @@ if (expensesArr.length > 0) {
   setChartType("bar");
 }
 // set trend
-if(localStorage.getItem("formData")){
-myTrendChartData = getTrendChartData(
-  JSON.parse(localStorage.getItem("formData"))
-);
-createTrendChart(myTrendChartData);
+if (localStorage.getItem("formData")) {
+  myTrendChartData = getTrendChartData(
+    JSON.parse(localStorage.getItem("formData"))
+  );
+  createTrendChart(myTrendChartData);
 }
 
 // Click Chart Button >
@@ -136,19 +189,58 @@ function showExpenses(arr) {
     deleteButton.addEventListener("click", (e) => {
       expensesArr = JSON.parse(localStorage.getItem("formData")); // getting data from LC (updated expensesArr)
 
-      expensesArr = expensesArr.filter((object) => object.id != obj.id); //filtering after delete
+      expensesArr = expensesArr.filter((object) => object.id != obj.id); //filtering after delete = updated expensesArr
 
       localStorage.setItem("formData", JSON.stringify(expensesArr)); // setting updated form data to LC
 
-      showExpenses(JSON.parse(localStorage.getItem("formData")));
+      showExpenses(JSON.parse(localStorage.getItem("formData"))); //table updated
 
-      console.log(localStorage.getItem("formData"));
+      // Update Summary //!+++++
+      // spent amount
+      if (localStorage.getItem("formData")) {
+        expensesArr = JSON.parse(localStorage.getItem("formData"));
+        totalSpent = Number(findTotalSpentAmount(expensesArr));
+      } else {
+        totalSpent = Number(expenseObj.amount);
+      }
+      // remaining budget
+      remainingBudget =
+        Number(localStorage.getItem("totalBudget")) - Number(totalSpent);
+
+      localStorage.setItem("totalSpent", totalSpent);
+      localStorage.setItem("remainingBudget", remainingBudget);
+      // console.log(totalSpent, remainingBudget);
+
+      remainingBudgetSpan.innerText = localStorage.getItem("remainingBudget");
+      totalSpentSpan.innerText = localStorage.getItem("totalSpent");
+
+      // updated bar graph //! ++++
+      if (expensesArr.length > 0) {
+        setChartType("bar");
+      }
+      // updated trend chart //! ++++
+      if (localStorage.getItem("formData")) {
+        myTrendChartData = getTrendChartData(
+          JSON.parse(localStorage.getItem("formData"))
+        );
+        createTrendChart(myTrendChartData);
+      }
+      // console.log(localStorage.getItem("formData"));
     });
 
     expenseDiv.append(date, purpose, amount, deleteButton);
     fragment.append(expenseDiv);
   });
   expenseContainer.append(fragment);
+}
+
+//* Find Total Spent Function
+function findTotalSpentAmount(arr) {
+  let res = 0;
+  res = arr.reduce((acc, curr) => {
+    return acc + Number(curr.amount);
+  }, 0);
+  return res;
 }
 
 //* Create Chart Function
