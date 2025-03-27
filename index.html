@@ -157,12 +157,16 @@
         <a href="#expense-board">Data Visualization</a>
         <a href="#tax-calculator">Tax Calculator</a>
         <a href="#ai-bot"> AI Advisor</a>
+        <a href="./notes.html">Your Notes</a>
         <button id="sign-up-button">Sign Up</button>
       </div>
     </div>
 
     <!--! Wrapper  -->
-    <div id="wrapper" class="min-h-full max-[400px]:p-[5px] pb-12 px-6 bg-sky-900">
+    <div
+      id="wrapper"
+      class="min-h-full max-[400px]:p-[5px] pb-12 px-6 bg-sky-900"
+    >
       <!--! heading -->
       <h1 class="text-2xl sm:text-4xl font-bold text-center text-amber-400">
         Track Your Every Expense...
@@ -180,7 +184,7 @@
           class="flex max-[400px]:flex-col flex-row justify-center items-center gap-4 w-1/2"
         >
           <input
-            type="text"
+            type="number"
             required
             class="px-4 h-10 w-[250px] rounded-lg bg-amber-100 text-black"
             placeholder="Enter amount  ₹"
@@ -236,7 +240,7 @@
             <div>
               <label for="amount" class="block">Amount : </label>
               <input
-                type="text"
+                type="number"
                 id="amount"
                 class="block bg-gray-100 text-black p-2 rounded-lg w-full"
                 placeholder="eg : 50000"
@@ -371,7 +375,10 @@
 
         <p>Tax Rate : <span id="tax-rate">0%</span></p>
         <!-- table -->
-        <div id="tax-guide" class="text-xs sm:text-lg max-[400px]:w-[330px] flex border-1 w-full">
+        <div
+          id="tax-guide"
+          class="text-xs sm:text-lg max-[400px]:w-[310px] flex border-1 w-full"
+        >
           <!-- left -->
           <div class="flex flex-col h-[200px] w-[70%] border-r-1">
             <h2
@@ -461,10 +468,13 @@
       <!--! AI Chat Bot  -->
       <div
         id="ai-bot"
-        class="mt-12 m-auto p-6 border-1 border-white bg-blue-300 w-full lg:w-1/2 rounded-lg flex justify-center items-center"
+        class="mt-12 m-auto p-6 border-1 border-white bg-blue-300 w-full lg:w-1/2 rounded-lg flex flex-col justify-center items-center gap-4"
       >
-        <p id="response"></p>
-        <button
+        <div id="ai-response" class="p-4 w-full text-sm sm:text-lg  flex flex-col gap-4">
+          <p>Let Us Tell You About Your Financial Habits</p>
+        </div>
+        <button 
+          id="ask-ai-btn"
           class="bg-blue-600 text-white font-semibold py-1.5 px-4 rounded-2xl"
         >
           Ask AI for Advise
@@ -487,6 +497,13 @@
         </button>
       </div>
 
+      <!--! delete all button  -->
+      <button
+      id="delete-all-btn"
+        class="fixed bottom-5 right-5 bg-red-500 text-white px-6 py-3 text-lg font-semibold rounded-lg shadow-lg hover:bg-red-600 active:scale-95 transition-all"
+      >
+        Delete All
+      </button>
     </div>
 
     <!--! Scripts  -->
@@ -494,6 +511,9 @@
     <script src="script.js" type="module"></script>
     <!-- sign in sign up -->
     <script src="sign.js" type="module"></script>
+    <!-- chart.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="myChart.js" type="module"></script>
     <!-- tax calculator -->
     <script src="calculator.js" type="module"></script>
     <!-- ai bot -->
@@ -503,9 +523,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <!-- local storage -->
     <script src="local.js" type="module"></script>
-    <!-- chart.JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="myChart.js" type="module"></script>
+    
   </body>
 </html>
 <!-- npx @tailwindcss/cli -i ./input.css -o ./output.css --watch -->

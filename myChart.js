@@ -1,4 +1,4 @@
-//! THIS IS A FILE TO TEST AND SELECT POPER DATA STRUCTURE FOR UTILITY FUNCTIONS
+//! THIS IS A FILE TO TEST AND SELECT PROPER DATA STRUCTURE FOR UTILITY FUNCTIONS
  
 // dummy data
 let data = [
@@ -51,9 +51,60 @@ function getTrendChartData(arr){
 function totalSpentAmountFnc(arr) {
   let res = 0;
   res = arr.reduce((acc, curr) => {
-    return acc.amount + curr.amount;
-  });
+    return acc + curr.amount;
+  },0);
   return res;
 }
 // console.log(totalSpentAmountFnc(data));
+
+function getOtherChartData(arr){
+  let ans = {};
+  arr.forEach((obj) => {
+    if(ans.hasOwnProperty(obj.purpose)){
+      ans[obj.purpose] += Number(obj.amount); 
+    }
+    else{
+      ans[obj.purpose] = Number(obj.amount);
+    }
+  });
+  return ans;
+}
+
+let otherData = getOtherChartData(data);
+// console.log(otherData);
+
+
+// Sorting leaderboard array
+
+let leaderBoard = [{
+  date: "1/1/1",
+  purpose: "",
+  amount: "",
+  id: "1235",
+},
+{
+  date: "1/1/1",
+  purpose: "",
+  amount: "",
+  id: "1234",
+},
+{
+  date: "1/1/1",
+  purpose: "",
+  amount: "",
+  id: "1236",
+}
+]
+
+function sortMyExpenseArr(arr){
+  arr.sort((a,b)=>{
+    return Number(a["id"]) - Number(b["id"])
+  })
+  // console.log(arr);
+  return arr;
+}
+
+// console.log(sortMyExpenseArr(leaderBoard));
+
+
 

@@ -60,4 +60,14 @@ button{
 }
 .tour {
     box-shadow: 1px 1px 16px #ffffffb8;
+} 
+
+/* ai response div */
+#ai-response > p{
+    text-align: justified;
+    font-weight: 600;
+    color: white;
+    background-color: rgb(192, 128, 239);
+    border-radius: 0.5rem;
+    padding: 1rem
 }

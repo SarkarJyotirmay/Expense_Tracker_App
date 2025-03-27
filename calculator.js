@@ -27,13 +27,13 @@ taxForm.addEventListener("submit", (e) => {
 
   switch (true) {
     case income > 1000000:
-      rate = 20;
-      break;
-    case income > 700000:
       rate = 15;
       break;
+    case income > 700000:
+      rate = 12;
+      break;
     case income > 500000:
-      rate = 10;
+      rate = 7;
       break;
     case income > 300000:
       rate = 5;

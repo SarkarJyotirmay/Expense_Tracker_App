@@ -26,7 +26,10 @@ const trendChart = document.getElementById("trend-chart");
 let myTrendChart;
 let myTrendChartData;
 
-// storage
+// delete all button
+const deleteAllBtn = document.getElementById("delete-all-btn");
+
+// storage array ....linked to Local Storage
 let expensesArr = [];
 //! ++++++
 if (localStorage.getItem("formData")) {
@@ -92,11 +95,14 @@ expenseForm.addEventListener("submit", (e) => {
   if (localStorage.getItem("formData")) {
     totalSpent = Number(findTotalSpentAmount(expensesArr)); //! +++++
 
-    // if expense exceeds or near budget
+    // if expense exceeds or near budget  //!++++
     if (totalSpent > totalBudget) {
       alert("Oops, Budget is Over Add More!");
       expensesArr = JSON.parse(localStorage.getItem("formData"));
       expensesArr.splice((expensesArr.length - 1), 1);
+      // localStorage.setItem("formData",expensesArr); //This trick did not worked
+      //! FIX NEEDED Edge Case : If total spent surpases remaining total budget, need to stop appending expense object to the array.
+
       showExpenses(expensesArr);
       return; //! stops execution
     } else if (totalSpent >= (totalBudget * 80) / 100) {
@@ -154,6 +160,29 @@ chartButtons.forEach((button) => {
     setChartType(e.target.value);
   });
 });
+
+// Click delete all button >
+deleteAllBtn.addEventListener("click", (e)=>{
+  console.log("hello from delete all");
+
+  localStorage.removeItem("formData")
+  localStorage.removeItem("totalBudget");
+  localStorage.removeItem("remainingBudget");
+  localStorage.removeItem("totalSpent");
+  expensesArr =  [];
+  totalBudget = 0;
+  remainingBudget = 0;
+  totalSpent = 0;
+  // console.log(expensesArr);
+  showExpenses(expensesArr);
+ 
+  myChart.destroy();
+  myTrendChart.destroy();
+
+  budgetSpan.innerText = totalBudget;
+  remainingBudgetSpan.innerText = remainingBudget;
+  totalSpentSpan.innerText = totalSpent;
+})
 
 //! UTILITY FUNCTIONS
 
@@ -243,16 +272,36 @@ function findTotalSpentAmount(arr) {
   return res;
 }
 
+//* sort expense array : update this feature later sort based on string date not id
+function sortMyExpenseArr(arr){
+  arr.sort((a,b)=>{
+    return Number(a["id"]) - Number(b["id"])
+  })
+  // console.log(arr);
+  return arr;
+} 
+
 //* Create Chart Function
 function createChart(arr, type) {
+  //! ******* 
+  let objChartData = getOtherChartData(arr);
+  let purposes = [];
+  let amounts = [];
+  for(let key in objChartData){
+    purposes.push(key);
+    amounts.push(objChartData[key])
+  }
+  //! *******
   myChart = new Chart(ctx, {
     type: type,
     data: {
-      labels: arr.map((obj) => obj.purpose),
+      // labels: arr.map((obj) => obj.purpose),
+      labels: purposes, //! **++
       datasets: [
         {
           label: "Amount spent",
-          data: arr.map((obj) => obj.amount),
+          // data: arr.map((obj) => obj.amount),
+          data: amounts, //! **+++
           borderWidth: 1,
         },
       ],
@@ -277,6 +326,20 @@ function setChartType(chartType) {
   expensesArr = JSON.parse(localStorage.getItem("formData"));
   createChart(expensesArr, chartType);
 }
+
+//* Get Other Chart data function : returns Object for create chart function
+function getOtherChartData(arr){
+  let ans = {};
+  arr.forEach((obj) => {
+    if(ans.hasOwnProperty(obj.purpose)){
+      ans[obj.purpose] += Number(obj.amount); 
+    }
+    else{
+      ans[obj.purpose] = Number(obj.amount);
+    }
+  });
+  return ans;
+} 
 
 //! Creating trend Chart
 //* get Trend Chart Data function
