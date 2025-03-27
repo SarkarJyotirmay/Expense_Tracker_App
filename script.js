@@ -175,13 +175,19 @@ deleteAllBtn.addEventListener("click", (e)=>{
   totalSpent = 0;
   // console.log(expensesArr);
   showExpenses(expensesArr);
- 
+ if(myChart){
   myChart.destroy();
+ }
+ if(myTrendChart){
   myTrendChart.destroy();
+ }
+  
 
   budgetSpan.innerText = totalBudget;
   remainingBudgetSpan.innerText = remainingBudget;
   totalSpentSpan.innerText = totalSpent;
+
+  window.location.reload();
 })
 
 //! UTILITY FUNCTIONS

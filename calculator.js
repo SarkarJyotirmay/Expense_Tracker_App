@@ -60,36 +60,36 @@ tourGuideBtn.addEventListener("click",(e)=>{
     tourImages[1].src = `${baseImagePath}0-goa.avif`
     tourImages[2].src = `${baseImagePath}2-maldives.jpg`
 
-    tourDestination[0].innerText = "KASHMIR"
-    tourDestination[1].innerText = "GOA"
-    tourDestination[2].innerText = "MALDIVES"
+    tourDestination[0].innerText = "VISIT TO KASHMIR"
+    tourDestination[1].innerText = "VISIT TO GOA"
+    tourDestination[2].innerText = "VISIT TO MALDIVES"
   }
   else if(income >= 700000){
     tourImages[0].src = `${baseImagePath}3-thailand.jpg`
     tourImages[1].src = `${baseImagePath}4-sikkim.jpg`
     tourImages[2].src = `${baseImagePath}5-leh.jpg`
 
-    tourDestination[0].innerText = "THAILAND"
-    tourDestination[1].innerText = "SIKKIM"
-    tourDestination[2].innerText = "LEH"
+    tourDestination[0].innerText = "VISIT TO THAILAND"
+    tourDestination[1].innerText = "VISIT TO SIKKIM"
+    tourDestination[2].innerText = "VISIT TO LEH"
   }
   else if(income >= 500000){
     tourImages[0].src = `${baseImagePath}9-bhutan.jpg`
     tourImages[1].src = `${baseImagePath}10-kerala.webp`
     tourImages[2].src = `${baseImagePath}11-kutch.jpg`
 
-    tourDestination[0].innerText = "BHUTAN"
-    tourDestination[1].innerText = "KERALA"
-    tourDestination[2].innerText = "RUN of KUTCH"
+    tourDestination[0].innerText = "VISIT TO BHUTAN"
+    tourDestination[1].innerText = "VISIT TO KERALA"
+    tourDestination[2].innerText = "VISIT TO RUN of KUTCH"
   }
   else {
     tourImages[0].src = `${baseImagePath}6-digha.jpg`
     tourImages[1].src = `${baseImagePath}7-tajmahal.jpg`
     tourImages[2].src = `${baseImagePath}8-duars.jpg`
 
-    tourDestination[0].innerText = "DIGHA"
-    tourDestination[1].innerText = "TAJ MAHAL"
-    tourDestination[2].innerText = "DUARS"
+    tourDestination[0].innerText = "VISIT TO DIGHA"
+    tourDestination[1].innerText = "VISIT TO TAJ MAHAL"
+    tourDestination[2].innerText = "VISIT TO DUARS"
   }
 
 })

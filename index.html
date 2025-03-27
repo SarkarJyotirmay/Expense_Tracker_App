@@ -221,6 +221,7 @@
             <div>
               <label for="date" class="block">Date : </label>
               <input
+                required
                 type="date"
                 id="date"
                 class="block bg-gray-100 text-black p-2 rounded-lg w-full"
@@ -230,6 +231,7 @@
             <div>
               <label for="purpose" class="block">Purpose : </label>
               <input
+                required
                 type="text"
                 id="purpose"
                 class="block bg-gray-100 text-black p-2 rounded-lg w-full"
@@ -240,6 +242,7 @@
             <div>
               <label for="amount" class="block">Amount : </label>
               <input
+                required
                 type="number"
                 id="amount"
                 class="block bg-gray-100 text-black p-2 rounded-lg w-full"
@@ -358,6 +361,7 @@
           class="w-full flex flex-col justify-center items-center gap-4"
         >
           <input
+            required
             type="number"
             id="tax-income-input"
             placeholder="Enter Income to calculate tax"
@@ -419,9 +423,9 @@
       <!--! tour guide button + tour guide div -->
       <button
         id="tour-guide-btn"
-        class="close w-[100px] py-2 rounded-xl bg-cyan-400 hover:bg-cyan-600 hover:text-white font-semibold"
+        class="close w-[250px] py-2 rounded-xl bg-cyan-400 hover:bg-cyan-600 hover:text-white font-semibold"
       >
-        Take a Tour
+        Take Our Tour Suggestions
       </button>
 
       <div
@@ -471,7 +475,7 @@
         class="mt-12 m-auto p-6 border-1 border-white bg-blue-300 w-full lg:w-1/2 rounded-lg flex flex-col justify-center items-center gap-4"
       >
         <div id="ai-response" class="p-4 w-full text-sm sm:text-lg  flex flex-col gap-4">
-          <p>Let Us Tell You About Your Financial Habits</p>
+          <p>Let Us Tell You About Your Financial Habits...</p>
         </div>
         <button 
           id="ask-ai-btn"
