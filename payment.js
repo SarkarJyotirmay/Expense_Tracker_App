@@ -2,7 +2,7 @@
 const payInput = document.getElementById("pay-input");
 
 var options = {
-    "key": "rzp_test_j9ygIpsIwORDMF", //! Enter the Key ID generated from the Dashboard
+    "key": "rzp_test_Cwr6LTo8iMGgyf", //! Enter the Key ID generated from the Dashboard
     "amount": 100*10000,
     "currency": "INR",
     "description": "J.Sarkar",
